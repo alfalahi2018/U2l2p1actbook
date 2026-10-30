@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Team Talk 2 – True or False</title>
+<style>
+body{font-family:Arial,sans-serif;background:#e8f4ff;margin:0;padding:12px;color:#223}.w{max-width:760px;margin:auto}
+h1{background:#2a6fb0;color:#fff;padding:12px;border-radius:14px;font-size:20px;margin:0 0 10px}
+.card{background:#fff;border-radius:14px;padding:12px;margin:10px 0;box-shadow:0 2px 6px #0002}
+.n{background:#e8473b;color:#fff;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;font-weight:bold;margin-right:6px}
+.tf button{font-size:20px;font-weight:bold;width:54px;height:54px;border-radius:50%;border:3px solid #2a6fb0;background:#fff;margin:6px;cursor:pointer}
+.tf button.on{background:#2a6fb0;color:#fff}.tf button.ok{background:#4caf50;border-color:#2e7d32;color:#fff}.tf button.no{background:#e53935;border-color:#b71c1c;color:#fff}
+.ex button{display:block;width:100%;text-align:left;margin:5px 0;padding:9px;border-radius:10px;border:2px solid #9bb;background:#f7fbff;font-size:15px;cursor:pointer}
+.ex button.on{background:#fff3b0;border-color:#e0a800}.ex button.ok{background:#c8f7c5;border-color:#2ca02c}.ex button.no{background:#ffd0d0;border-color:#d33}
+.ctl{text-align:center}.ctl button{background:#2a6fb0;color:#fff;border:0;border-radius:10px;padding:10px 18px;font-size:16px;margin:4px;cursor:pointer}
+#res{font-size:18px;font-weight:bold;text-align:center}.cr{text-align:center;font-size:13px;color:#456}
+</style></head><body><div class="w">
+<h1>📖 Team Talk 2 · Read the dialogue again: circle T or F, then choose the reason</h1>
+<svg viewBox="0 0 600 90" style="width:100%;max-height:90px"><rect width="600" height="90" fill="#bfe8c0" rx="12"/><path d="M30 90v-45l18-28 18 28v45zM520 90v-55l22-30 22 30v55z" fill="#2e7d32"/><ellipse cx="300" cy="62" rx="40" ry="22" fill="#8d6e63"/><g stroke="#4e342e" stroke-width="3"><path d="M270 45l-8-14M285 40l-4-16M300 38v-18M315 40l4-16M330 45l8-14"/></g><circle cx="338" cy="66" r="5" fill="#222"/><text x="300" y="20" text-anchor="middle" font-size="15" fill="#1b5e20">Is it a hedgehog? 🦔</text></svg>
+<div id="items"></div>
+<div class="ctl"><button onclick="check()">✅ Check</button><button onclick="build()">🔄 Try again</button></div>
+<div id="res"></div><div class="cr">Created by T.Badria Alfalahi</div></div>
+<script>
+// Edit here: [statement, correct T/F, correct explanation, wrong explanation 1, wrong explanation 2]
+const Q=[
+["Emily doesn't like the place where they are.","F","Emily says that she loves the place.","Emily says that she wants to go home.","Emily says that the place is scary."],
+["Bayan says she has already seen some frogs.","T","Bayan says she has already seen some frogs.","Bayan says she is afraid of frogs.","Bayan says there are no frogs here."],
+["There aren't any bears where the team are.","F","There might be a bear with long claws.","There are only birds here.","Nawal says bears live in the sea."],
+["The animal could be a bird because it has wings.","F","It can't be a bird. It doesn't have wings.","It has big wings and feathers.","Emily says it is a bird."],
+["Nawal says the animal doesn't have spines.","F","The animal has spines.","The animal has long claws.","The animal has a long tail."],
+["The team shouldn't pick up the hedgehog.","T","It may be scared, so they shouldn't touch it.","It is very big and heavy.","It is sleeping in a tree."]];
+const st=[];
+function shuffle(a){return a.sort(()=>Math.random()-.5)}
+function build(){const c=document.getElementById("items");c.innerHTML="";document.getElementById("res").textContent="";st.length=0;
+Q.forEach((q,i)=>{st[i]={tf:null,ex:null};const d=document.createElement("div");d.className="card";
+d.innerHTML='<b><span class="n">'+(i+1)+"</span>"+q[0]+'</b><div class="tf"><button>T</button><button>F</button></div><div class="ex"></div>';
+const tb=d.querySelectorAll(".tf button");tb.forEach((b,k)=>b.onclick=()=>{tb.forEach(x=>x.classList.remove("on"));b.classList.add("on");st[i].tf=k?"F":"T"});
+const ex=d.querySelector(".ex");shuffle([q[2],q[3],q[4]]).forEach(t=>{const b=document.createElement("button");b.textContent=t;
+b.onclick=()=>{ex.querySelectorAll("button").forEach(x=>x.classList.remove("on"));b.classList.add("on");st[i].ex=t};ex.append(b)});
+c.append(d)})}
+function check(){let sc=0;document.querySelectorAll(".card").forEach((d,i)=>{const q=Q[i],tb=d.querySelectorAll(".tf button");
+tb.forEach(b=>b.classList.remove("on"));
+if(st[i].tf){const b=tb[st[i].tf=="F"?1:0];const ok=st[i].tf===q[1];b.classList.add(ok?"ok":"no");if(ok)sc++}
+d.querySelectorAll(".ex button").forEach(b=>{b.classList.remove("on");if(b.textContent===q[2])b.classList.add("ok");else if(b.textContent===st[i].ex)b.classList.add("no")});
+if(st[i].ex===q[2])sc++});
+document.getElementById("res").textContent="Score: "+sc+" / "+Q.length*2+(sc==Q.length*2?" 🌟 Excellent!":sc>=8?" 👍 Good job!":" 💪 Read the dialogue again!")}
+build();
+</script></body></html>
